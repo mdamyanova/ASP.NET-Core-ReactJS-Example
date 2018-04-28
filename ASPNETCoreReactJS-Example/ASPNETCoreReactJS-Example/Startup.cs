@@ -1,10 +1,16 @@
 namespace ASPNETCoreReactJS_Example
 {
+    using AutoMapper;
+    using Data;
+    using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.SpaServices.Webpack;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Services.Implementations;
+    using Services.Interfaces;
 
     public class Startup
     {
@@ -17,11 +23,20 @@ namespace ASPNETCoreReactJS_Example
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ExampleDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<IUserService, UserService>();
+
+            services.AddAutoMapper();
+
             services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDatabaseMigration();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
