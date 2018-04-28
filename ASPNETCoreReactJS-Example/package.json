@@ -3,8 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "devDependencies": {
+    "@types/bootstrap": "^4.1.0",
     "@types/history": "4.6.0",
     "@types/react": "15.0.35",
+    "@types/react-bootstrap": "^0.32.9",
     "@types/react-dom": "15.5.1",
     "@types/react-hot-loader": "3.0.3",
     "@types/react-router": "4.0.12",
@@ -30,5 +32,12 @@
     "url-loader": "0.5.9",
     "webpack": "2.5.1",
     "webpack-hot-middleware": "2.18.2"
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "jsx-loader": "^0.13.2",
+    "mdbreact": "^4.3.0",
+    "react-bootstrap": "^0.32.1",
+    "reactstrap": "^5.0.0"
   }
 }
