@@ -32,6 +32,7 @@
   <ItemGroup>
     <None Remove="ClientApp\components\About.tsx" />
     <None Remove="ClientApp\components\Error.tsx" />
+    <None Remove="ClientApp\components\Example.tsx" />
     <None Remove="ClientApp\empty.tsx" />
     <None Remove="ClientApp\utils\request.ts" />
   </ItemGroup>
@@ -43,6 +44,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\About.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Error.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Example.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Register.tsx" />
     <TypeScriptCompile Include="ClientApp\empty.tsx" />
