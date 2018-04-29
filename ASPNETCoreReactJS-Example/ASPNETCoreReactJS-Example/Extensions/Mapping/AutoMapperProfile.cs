@@ -2,13 +2,14 @@
 {
     using AutoMapper;
     using Data.Models;
-    using Services.Models;
+    using Models;
 
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserServiceModel>();
+            // List all mapping objects here
+            CreateMap<User, UserViewModel>();
         }
     }
 }

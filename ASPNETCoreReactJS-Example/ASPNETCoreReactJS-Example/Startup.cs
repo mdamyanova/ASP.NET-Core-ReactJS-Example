@@ -25,6 +25,7 @@ namespace ASPNETCoreReactJS_Example
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Inject Framework Services
             services.AddDbContext<ExampleDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -38,10 +39,13 @@ namespace ASPNETCoreReactJS_Example
             .AddEntityFrameworkStores<ExampleDbContext>()
             .AddDefaultTokenProviders();
 
+            // Inject Application Services
             services.AddTransient<IUserService, UserService>();
 
+            // AutoMapper, of course
             services.AddAutoMapper();
 
+            // Make urls lowercase
             services.AddRouting(routing => routing.LowercaseUrls = true);
 
             services.AddMvc();
@@ -49,6 +53,7 @@ namespace ASPNETCoreReactJS_Example
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Use our extension method
             app.UseDatabaseMigration();
 
             if (env.IsDevelopment())

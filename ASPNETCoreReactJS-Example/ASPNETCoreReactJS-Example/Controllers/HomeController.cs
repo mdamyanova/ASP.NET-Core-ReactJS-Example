@@ -10,6 +10,7 @@ namespace ASPNETCoreReactJS_Example.Controllers
             return View();
         }
 
+        // Test action for authorized users only
         [Authorize]
         public IActionResult Example()
         {

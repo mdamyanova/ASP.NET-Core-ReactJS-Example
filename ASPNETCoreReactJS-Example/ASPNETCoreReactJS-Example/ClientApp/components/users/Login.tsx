@@ -1,14 +1,16 @@
 ﻿import * as React from "react";
-import { Form, FormGroup, FormControl, ControlLabel, Button, Col, Grid, Row } from 'react-bootstrap';
 import 'isomorphic-fetch';
+import { Form, FormGroup, FormControl, ControlLabel, Button, Col, Grid, Row } from 'react-bootstrap';
 
 export class Login extends React.Component<any, any> {
     constructor() {
         super();
+
         this.state = {
             userName: '',
             password: ''
         };
+
         this.handleOnChange = this.handleOnChange.bind(this);
         this.prepareFormData = this.prepareFormData.bind(this);
         this.loginUser = this.loginUser.bind(this);
@@ -32,6 +34,7 @@ export class Login extends React.Component<any, any> {
 
         var data = JSON.stringify(this.prepareFormData());
 
+        // Send POST request with data submited from form
         fetch('/api/users/login', {
             method: 'POST',
             headers: {
@@ -43,6 +46,8 @@ export class Login extends React.Component<any, any> {
             .then(this.checkStatus);
     }
 
+    // Tell fetch() that 4xx and 5xx are client and server errors respectively,
+    // since it hasn't clue yet; redirect to pages depending of response's status code
     checkStatus(res: any): void {
         if (res.status >= 200 && res.status < 300) {
             this.props.history.push('/example');
@@ -81,11 +86,9 @@ export class Login extends React.Component<any, any> {
                         </form>
                     </Col>
                     <Col xs={6} md={4}>
-                        <FormGroup>
-                            <FormControl.Static>Hello, {this.state.userName}</FormControl.Static>
-                        </FormGroup>
                     </Col>
                 </Row>
-            </Grid>);
+            </Grid>
+        );
     }
 }

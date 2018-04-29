@@ -1,13 +1,11 @@
 namespace ASPNETCoreReactJS_Example.Controllers
 {
     using Data.Models;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Models;
     using Services.Interfaces;
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -16,7 +14,6 @@ namespace ASPNETCoreReactJS_Example.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly ILogger logger;
         private readonly IUserService service;
 
         public UsersController(
@@ -27,14 +24,15 @@ namespace ASPNETCoreReactJS_Example.Controllers
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.logger = logger;
             this.service = service;
         }
 
+        // GET All Users
         [HttpGet("[action]")]
         public IEnumerable<UserViewModel> All()
             => this.service.All();
 
+        // POST Register User
         [HttpPost("[action]")]
         public async Task<IActionResult> Register([FromBody]RegisterModel model)
         {
@@ -43,6 +41,7 @@ namespace ASPNETCoreReactJS_Example.Controllers
                 return BadRequest(this.ModelState);
             }
 
+            // TODO
             var user = new User()
             {
                 UserName = model.UserName,
@@ -50,7 +49,7 @@ namespace ASPNETCoreReactJS_Example.Controllers
                 Email = model.Email
             };
 
-            IdentityResult result = await this.userManager.CreateAsync(user, model.Password);
+            var result = await this.userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
@@ -59,9 +58,10 @@ namespace ASPNETCoreReactJS_Example.Controllers
 
             this.service.Add(user);
 
-            return Ok();
+            return this.Ok();
         }
 
+        // POST Login User
         [HttpPost("[action]")]
         public async Task<IActionResult> Login([FromBody]LoginModel model)
         {
@@ -70,7 +70,8 @@ namespace ASPNETCoreReactJS_Example.Controllers
                 return BadRequest(this.ModelState);
             }
 
-            var result = await this.signInManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: true, lockoutOnFailure: false);
+            var result = await this.signInManager.PasswordSignInAsync(
+                model.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
@@ -80,32 +81,13 @@ namespace ASPNETCoreReactJS_Example.Controllers
             return this.Ok();
         }
 
-        private IActionResult GetError(IdentityResult result)
+        // POST Logout User
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Logout()
         {
-            if (result == null)
-            {
-                return BadRequest();
-            }
+            await this.signInManager.SignOutAsync();
 
-            if (!result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("errors", error.ToString());
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
-                return BadRequest(ModelState);
-            }
-
-            return null;
+            return this.Ok();
         }
     }
 }

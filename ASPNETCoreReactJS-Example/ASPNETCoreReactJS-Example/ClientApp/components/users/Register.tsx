@@ -1,33 +1,32 @@
 ﻿import * as React from "react";
+import 'isomorphic-fetch';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import { Form, FormGroup, FormControl, ControlLabel, Button, Col, Grid, Row } from 'react-bootstrap';
-import 'isomorphic-fetch';
-
-interface HandleNameChangeInterface {
-    target: HTMLInputElement;
-}
 
 export class Register extends React.Component<any, any> {
     constructor() {
         super();
+
         this.state = {
             userName: '',
             fullName: '',
             email: '',
             password: '',
-            confirmPassword: '',
-            errors: []
+            confirmPassword: ''
         };
+
         this.handleOnChange = this.handleOnChange.bind(this);
         this.prepareFormData = this.prepareFormData.bind(this);
         this.registerUser = this.registerUser.bind(this);
         this.checkStatus = this.checkStatus.bind(this);
     }
 
+    // Handle all changes in the state
     handleOnChange(event: any): void {
-        this.setState({ [event.target.id]: event.target.value, errors: [] });
+        this.setState({ [event.target.id]: event.target.value });
     }
 
+    // Return JS object as ASP expect, ready for parsing to JSON
     prepareFormData(data = this.state) {
         return {
             UserName: data.userName.trim(),
@@ -44,6 +43,7 @@ export class Register extends React.Component<any, any> {
 
         var data = JSON.stringify(this.prepareFormData());
 
+        // Send POST request with data submited from form
         fetch('/api/users/register', {
             method: 'POST',
             headers: {
@@ -55,6 +55,8 @@ export class Register extends React.Component<any, any> {
             .then(this.checkStatus);
     }
 
+    // Tell fetch() that 4xx and 5xx are client and server errors respectively,
+    // since it hasn't clue yet; redirect to pages depending of response's status code
     checkStatus(res: any) : void {
         if (res.status >= 200 && res.status < 300) {
             this.props.history.push('/login');
@@ -111,6 +113,7 @@ export class Register extends React.Component<any, any> {
                         </form>
                     </Col>
                     <Col xs={6} md={4}>
+                        {/*Helpful way to see how state changes dynamically so I left it here*/}
                         <FormGroup>
                             <ControlLabel>Hello, stranger! Are you ok with this info:</ControlLabel>
                             <FormControl.Static>Username: {this.state.userName}</FormControl.Static>
@@ -119,6 +122,7 @@ export class Register extends React.Component<any, any> {
                         </FormGroup>
                     </Col>
                 </Row>
-            </Grid>);
+            </Grid>
+        );
     }
 }

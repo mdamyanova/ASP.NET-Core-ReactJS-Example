@@ -33,8 +33,7 @@
     <None Remove="ClientApp\components\About.tsx" />
     <None Remove="ClientApp\components\Error.tsx" />
     <None Remove="ClientApp\components\Example.tsx" />
-    <None Remove="ClientApp\empty.tsx" />
-    <None Remove="ClientApp\utils\request.ts" />
+    <None Remove="ClientApp\components\users\Logout.tsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,13 +45,12 @@
     <TypeScriptCompile Include="ClientApp\components\Error.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Example.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Login.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\users\Logout.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Register.tsx" />
-    <TypeScriptCompile Include="ClientApp\empty.tsx" />
-    <TypeScriptCompile Include="ClientApp\utils\request.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\assets\images\" />
+    <Folder Include="Services\Models\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

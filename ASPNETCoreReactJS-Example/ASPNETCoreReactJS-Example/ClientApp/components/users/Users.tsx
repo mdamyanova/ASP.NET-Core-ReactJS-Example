@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import { RouteComponentProps } from 'react-router';
+import { Table } from 'react-bootstrap';
 
 interface UsersList {
     userName: string;
@@ -8,16 +9,12 @@ interface UsersList {
     email: string;
 }
 
-interface UsersExampleState {
-    users: UsersList[];
-    loading: boolean;
-}
-
-export class Users extends React.Component<RouteComponentProps<{}>, UsersExampleState> {
+export class Users extends React.Component<RouteComponentProps<{}>, any> {
     constructor() {
         super();
         this.state = { users: [], loading: true };
 
+        // Send GET request for listing all users
         fetch('api/users/all')
             .then(response => response.json() as Promise<UsersList[]>)
             .then(data => {
@@ -42,23 +39,25 @@ export class Users extends React.Component<RouteComponentProps<{}>, UsersExample
             return <p>Sorry, no users.</p>;
         }
 
-        return <table className='table'>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Full name</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {users.map(user =>
-                    <tr key={user.userName}>
-                        <td>{user.userName}</td>
-                        <td>{user.fullName}</td>
-                        <td>{user.email}</td>
+        return (
+            <Table striped bordered condensed hover responsive>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Full name</th>
+                        <th>Email</th>
                     </tr>
-                )}
-            </tbody>
-        </table>; 
+                </thead>
+                <tbody>
+                    {users.map(user =>
+                        <tr key={user.userName}>
+                            <td>{user.userName}</td>
+                            <td>{user.fullName}</td>
+                            <td>{user.email}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </Table>
+        );
     }
 }

@@ -7,9 +7,11 @@ export interface LayoutProps {
 
 export class Layout extends React.Component<LayoutProps, {}> {
     public render() {
-        return <div>
-                    <NavMenu />
+        return (
+            <div>
+                <NavMenu />
                 {this.props.children}
             </div>
+        );
     };
 }

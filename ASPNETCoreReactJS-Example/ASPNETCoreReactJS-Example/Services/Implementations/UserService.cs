@@ -1,9 +1,9 @@
 ﻿namespace ASPNETCoreReactJS_Example.Services.Implementations
 {
-    using ASPNETCoreReactJS_Example.Data.Models;
     using ASPNETCoreReactJS_Example.Models;
     using AutoMapper.QueryableExtensions;
     using Data;
+    using Data.Models;
     using Interfaces;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,6 +20,8 @@
         public IEnumerable<UserViewModel> All()
             => this.db.Users.ProjectTo<UserViewModel>();
 
+        // TODO: Maybe we shouldn't pass a model from db
+        // -- use autmapper
         public void Add(User user)
         {
             var exists = Exists(user.Id);
@@ -32,7 +34,7 @@
 
         }
 
-        private bool Exists(string id)
+        public bool Exists(string id)
             => this.db.Users.Any(u => u.Id == id);
     }
 }
