@@ -31,22 +31,26 @@
 
   <ItemGroup>
     <None Remove="ClientApp\components\About.tsx" />
-    <None Remove="ClientApp\components\users\Test.tsx" />
+    <None Remove="ClientApp\components\Error.tsx" />
     <None Remove="ClientApp\empty.tsx" />
     <None Remove="ClientApp\utils\request.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\assets\" />
+    <None Include="wwwroot\baby-cow.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\About.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Error.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Register.tsx" />
-    <TypeScriptCompile Include="ClientApp\components\users\Test.tsx" />
     <TypeScriptCompile Include="ClientApp\empty.tsx" />
     <TypeScriptCompile Include="ClientApp\utils\request.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\assets\images\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

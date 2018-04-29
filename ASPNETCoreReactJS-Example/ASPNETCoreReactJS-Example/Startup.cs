@@ -2,9 +2,11 @@ namespace ASPNETCoreReactJS_Example
 {
     using AutoMapper;
     using Data;
+    using Data.Models;
     using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -25,6 +27,16 @@ namespace ASPNETCoreReactJS_Example
         {
             services.AddDbContext<ExampleDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddEntityFrameworkStores<ExampleDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddTransient<IUserService, UserService>();
 
