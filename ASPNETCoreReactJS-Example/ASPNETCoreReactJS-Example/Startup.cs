@@ -30,6 +30,8 @@ namespace ASPNETCoreReactJS_Example
 
             services.AddAutoMapper();
 
+            services.AddRouting(routing => routing.LowercaseUrls = true);
+
             services.AddMvc();
         }
 

@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
 
@@ -18,26 +22,31 @@
 
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Compile Remove="Areas\**" />
+    <Content Remove="Areas\**" />
     <Content Remove="ClientApp\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <None Remove="Areas\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="ClientApp\components\About.tsx" />
-    <None Remove="ClientApp\components\Users.tsx" />
+    <None Remove="ClientApp\components\users\Test.tsx" />
     <None Remove="ClientApp\empty.tsx" />
+    <None Remove="ClientApp\utils\request.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="ClientApp\assets\" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\About.tsx" />
-    <TypeScriptCompile Include="ClientApp\components\Users.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\users\Login.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\users\Register.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\users\Test.tsx" />
     <TypeScriptCompile Include="ClientApp\empty.tsx" />
+    <TypeScriptCompile Include="ClientApp\utils\request.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

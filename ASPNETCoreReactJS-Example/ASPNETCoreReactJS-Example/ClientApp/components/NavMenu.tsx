@@ -18,7 +18,8 @@ export class NavMenu extends React.Component<{}, {}> {
                 </Nav>
                 <Nav pullRight>
                     <NavItem eventKey={1} href="#">example</NavItem>
-                    <NavItem eventKey={2} href="#">example</NavItem>
+                    {/*todo - check users*/}
+                    <NavItem eventKey={2} href="/register">Register</NavItem>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>;

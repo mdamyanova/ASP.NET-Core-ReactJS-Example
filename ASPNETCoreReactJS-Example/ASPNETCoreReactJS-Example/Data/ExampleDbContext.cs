@@ -20,7 +20,7 @@
                 .HasMany(u => u.Scores)
                 .WithOne(s => s.User)
                 .HasForeignKey(u => u.UserId);
-       
+
             base.OnModelCreating(builder);
         }
     }
