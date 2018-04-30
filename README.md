@@ -1,4 +1,4 @@
-# ASP.NET-Core-ReactJS-Example
+# ASP.NET-Core-ReactJS-Example [![HitCount](http://hits.dwyl.io/mdamyanova/ASP.NET-Core-ReactJS-Example.svg)](http://hits.dwyl.io/mdamyanova/ASP.NET-Core-ReactJS-Example)
 Simple setup and skeleton for ASP.NET Core Web API with ReactJS UI
 
 ## What is this?
