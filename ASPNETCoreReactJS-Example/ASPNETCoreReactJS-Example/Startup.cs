@@ -4,6 +4,7 @@ namespace ASPNETCoreReactJS_Example
     using Data;
     using Data.Models;
     using Extensions;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -11,8 +12,12 @@ namespace ASPNETCoreReactJS_Example
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.IdentityModel.Tokens;
     using Services.Implementations;
     using Services.Interfaces;
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Text;
 
     public class Startup
     {
@@ -39,8 +44,31 @@ namespace ASPNETCoreReactJS_Example
             .AddEntityFrameworkStores<ExampleDbContext>()
             .AddDefaultTokenProviders();
 
+            // Add JWT Authentication
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             // Inject Application Services
             services.AddTransient<IUserService, UserService>();
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = Configuration["JwtIssuer"],
+                        ValidAudience = Configuration["JwtIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
+                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
+                    };
+                });
 
             // AutoMapper, of course
             services.AddAutoMapper();
@@ -71,6 +99,9 @@ namespace ASPNETCoreReactJS_Example
             }
 
             app.UseStaticFiles();
+
+            // Use Authentication
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

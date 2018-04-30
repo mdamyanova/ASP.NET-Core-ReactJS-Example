@@ -3,37 +3,45 @@ namespace ASPNETCoreReactJS_Example.Controllers
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
     using Models;
     using Services.Interfaces;
+    using System;
     using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
     using System.Threading.Tasks;
 
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class UsersController : Controller
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly IConfiguration configuration;
         private readonly IUserService service;
 
         public UsersController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            ILogger<UsersController> logger,
+            IConfiguration configuration,
             IUserService service)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.configuration = configuration;
             this.service = service;
         }
 
         // GET All Users
-        [HttpGet("[action]")]
+        [HttpGet]
         public IEnumerable<UserViewModel> All()
             => this.service.All();
 
         // POST Register User
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegisterModel model)
         {
             if (!ModelState.IsValid)
@@ -58,11 +66,14 @@ namespace ASPNETCoreReactJS_Example.Controllers
 
             this.service.Add(user);
 
-            return this.Ok();
+            // Automatically sign in user ? 
+            //this.signInManager.SignInAsync(user, false);
+
+            return this.Ok(GenerateJwtToken(model.Email, user));
         }
 
         // POST Login User
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -78,16 +89,41 @@ namespace ASPNETCoreReactJS_Example.Controllers
                 return this.BadRequest();
             }
 
-            return this.Ok();
+            var appUser = this.userManager.Users.SingleOrDefault(u => u.UserName == model.UserName);
+            return this.Ok(GenerateJwtToken(model.UserName, appUser));
         }
 
         // POST Logout User
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await this.signInManager.SignOutAsync();
 
             return this.Ok();
+        }
+
+        private object GenerateJwtToken(string email, IdentityUser user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JwtExpireDays"]));
+
+            var token = new JwtSecurityToken(
+                configuration["JwtIssuer"],
+                configuration["JwtIssuer"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

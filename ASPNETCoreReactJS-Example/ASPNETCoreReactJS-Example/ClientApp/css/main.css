@@ -1,3 +1,5 @@
 ﻿/*Import our styles and reference it to the boot.tsx for cleaner code*/
 @import 'site.css';
 @import 'error.css';
+@import 'loading.css';
+@import 'home.css';

@@ -1,6 +1,8 @@
 ﻿import * as React from "react";
+import { Redirect } from "react-router-dom";
 import 'isomorphic-fetch';
 import { Form, FormGroup, FormControl, ControlLabel, Button, Col, Grid, Row } from 'react-bootstrap';
+import { setAccessToken, setUser, isLoggedIn } from '../../utils/helpers';
 
 export class Login extends React.Component<any, any> {
     constructor() {
@@ -8,7 +10,8 @@ export class Login extends React.Component<any, any> {
 
         this.state = {
             userName: '',
-            password: ''
+            password: '',
+            loggedIn: isLoggedIn()
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -50,6 +53,9 @@ export class Login extends React.Component<any, any> {
     // since it hasn't clue yet; redirect to pages depending of response's status code
     checkStatus(res: any): void {
         if (res.status >= 200 && res.status < 300) {
+            setAccessToken(res.access_token);
+            setUser(this.state.userName);
+            this.setState({ loggedIn: true });
             this.props.history.push('/example');
         } else {
             let error = new Error(res.statusTest);
@@ -59,6 +65,10 @@ export class Login extends React.Component<any, any> {
     }
 
     render() {
+        if (this.state.loggedIn) {
+            return <Redirect to="/" />;
+        }
+
         return (
             <Grid>
                 <Row className="show-grid">
