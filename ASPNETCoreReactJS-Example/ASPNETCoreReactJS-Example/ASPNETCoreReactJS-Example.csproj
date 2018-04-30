@@ -33,6 +33,7 @@
     <None Remove="ClientApp\components\About.tsx" />
     <None Remove="ClientApp\components\Error.tsx" />
     <None Remove="ClientApp\components\Example.tsx" />
+    <None Remove="ClientApp\components\Footer.tsx" />
     <None Remove="ClientApp\components\users\Logout.tsx" />
     <None Remove="ClientApp\css\home.css" />
     <None Remove="ClientApp\css\loading.css" />
@@ -47,6 +48,7 @@
     <TypeScriptCompile Include="ClientApp\components\About.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Error.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Example.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Footer.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Logout.tsx" />
     <TypeScriptCompile Include="ClientApp\components\users\Register.tsx" />

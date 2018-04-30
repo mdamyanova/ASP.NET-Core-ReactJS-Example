@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
-    // Make Database Migation cleaner with this ApplicationBuilder's extension
+    // Make Database Migation cleaner ApplicationBuilder's extension
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder UseDatabaseMigration(this IApplicationBuilder app)

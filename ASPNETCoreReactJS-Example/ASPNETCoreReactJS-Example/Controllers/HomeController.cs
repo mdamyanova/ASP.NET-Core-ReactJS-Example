@@ -1,5 +1,6 @@
 namespace ASPNETCoreReactJS_Example.Controllers
 {
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace ASPNETCoreReactJS_Example.Controllers
         }
 
         // Test action for authorized users only
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Example()
         {
             return this.Ok();

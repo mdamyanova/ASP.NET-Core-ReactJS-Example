@@ -69,3 +69,16 @@ body {
         text-overflow: ellipsis;
     }
 }
+
+/*footer stays bottom*/
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+}
+
+#react-app {
+    padding-bottom: 60px;
+}
