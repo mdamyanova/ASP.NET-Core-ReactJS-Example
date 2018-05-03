@@ -1,4 +1,4 @@
-# ASP.NET-Core-ReactJS-Example [![HitCount](http://hits.dwyl.io/mdamyanova/ASP.NET-Core-ReactJS-Example.svg)](http://hits.dwyl.io/mdamyanova/ASP.NET-Core-ReactJS-Example)
+# ASP.NET Core with ReactJS Example
 Simple setup and skeleton for ASP.NET Core Web API with ReactJS UI
 
 ## What is this?
@@ -18,10 +18,6 @@ This is an useful template for simple main setup of web application. It's abstra
   - ReactJS
   - Fetch API
   - HTML5, CSS3
-  - Webpack
-
-Cool things to make it beautiful:
-- React-Bootstrap
 
 ## How this thing works?
 Well, you know... you have a database. It's configured to migrate. You have a simple UI rendering. While you wait you'll see a fancy loading icon. You have webpack all running by itself (thanks to the great ASP.NET Core template). Basically you have all setup so you can run the solution and see it. And if something goes wrong - a baby cow will come to say 'Hi'to you! I'm not joking.
